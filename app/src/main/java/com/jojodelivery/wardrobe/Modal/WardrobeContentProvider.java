@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -19,11 +20,14 @@ import com.jojodelivery.wardrobe.Modal.DB.WardrobeDBHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 /**
  * Created by asus on 24-06-2016.
  */
 public class WardrobeContentProvider extends android.content.ContentProvider {
+
+    private static final String TAG = WardrobeContentProvider.class.getSimpleName();
 
     /**
      * Default Constructor
@@ -175,6 +179,8 @@ public class WardrobeContentProvider extends android.content.ContentProvider {
         {
             case Constants.INSERT_IMAGE:
                 return insertImage(extras);
+            case Constants.GET_SHIRTS_TROUSERS:
+                return getShirtsTrousers();
         }
         return super.call(method, arg, extras);
     }
@@ -205,4 +211,32 @@ public class WardrobeContentProvider extends android.content.ContentProvider {
     }
 
 
+    public Bundle getShirtsTrousers() {
+        Bundle bundle = new Bundle();
+        try {
+            bundle.putParcelableArrayList(Constants.SHIRTS, getClothes(Constants.CLOTH_SHIRT));
+            bundle.putParcelableArrayList(Constants.TROUSERS, getClothes(Constants.CLOTH_TROUSERS));
+            bundle.putString(Constants.RESULT, Constants.RESULT_OK);
+        }catch (Exception e){
+            bundle.putString(Constants.RESULT,Constants.RESULT_FAIL);
+            e.printStackTrace();
+        }
+        return bundle;
+    }
+
+    private ArrayList<Cloth> getClothes(String type) {
+        SQLiteDatabase sqDB = database.getReadableDatabase();
+        Cursor cursor =  sqDB.query(ClothesTable.Yatis_Table_Clothes,
+                null, ClothesTable.Clothes_Column_Type + "=?", new String[]{type}, null, null, null, null);
+        ArrayList<Cloth> result = new ArrayList<>();
+        cursor.moveToFirst();
+        while (cursor.moveToNext())
+        {
+            Cloth cloth = new Cloth();
+            cloth.setType(cursor.getString(cursor.getColumnIndex(ClothesTable.Clothes_Column_Type)));
+            cloth.setId(cursor.getString(cursor.getColumnIndex(ClothesTable.Clothes_Column_Id)));
+            result.add(cloth);
+        }
+        return result;
+    }
 }

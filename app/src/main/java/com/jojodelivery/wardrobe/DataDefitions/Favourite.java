@@ -23,4 +23,12 @@ public class Favourite {
     public void setTrousersId(String trousersId) {
         this.trousersId = trousersId;
     }
+
+    @Override
+    public String toString() {
+        return "Favourite{" +
+                "shirtId='" + shirtId + '\'' +
+                ", trousersId='" + trousersId + '\'' +
+                '}';
+    }
 }

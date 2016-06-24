@@ -48,6 +48,15 @@ public class ImageSelector extends AppCompatActivity implements View.OnClickList
         ivImage = (ImageView) findViewById(R.id.ivImage);
         findViewById(R.id.ok).setOnClickListener(this);
         findViewById(R.id.cancel).setOnClickListener(this);
+        if(savedInstanceState != null)
+        {
+            finalBitmap = savedInstanceState.getParcelable(Constants.BITMAP);
+            if(finalBitmap != null)
+            {
+                ivImage.setImageBitmap(finalBitmap);
+                return;
+            }
+        }
         selectImage();
     }
 
@@ -63,14 +72,13 @@ public class ImageSelector extends AppCompatActivity implements View.OnClickList
                 }
                 Cloth cloth = new Cloth();
                 cloth.setImage(finalBitmap);
-                //cloth.setType(getIntent().getExtras().getString(Constants.CLOTH_TYPE, Constants.CLOTH_SHIRT));
-                cloth.setType(Constants.CLOTH_SHIRT);
+                cloth.setType(getIntent().getExtras().getString(Constants.CLOTH_TYPE, Constants.CLOTH_SHIRT));
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(Constants.CLOTH,cloth);
                 getLoaderManager().initLoader(LOADER_ID, bundle, ImageSelector.this).forceLoad();
                 break;
             case R.id.cancel:
-                finish();
+                selectImage();
                 break;
         }
     }
@@ -202,5 +210,11 @@ public class ImageSelector extends AppCompatActivity implements View.OnClickList
         }
         ivImage.setImageBitmap(thumbnail);
         finalBitmap = thumbnail;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(Constants.BITMAP,finalBitmap);
+        super.onSaveInstanceState(outState);
     }
 }

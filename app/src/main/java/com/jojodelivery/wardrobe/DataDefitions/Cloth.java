@@ -36,6 +36,13 @@ public class Cloth implements Parcelable{
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Cloth{" +
+                "type='" + type + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
 
     public static final Parcelable.Creator<Cloth> CREATOR = new Parcelable.Creator<Cloth>() {
         public Cloth createFromParcel(Parcel in) {
@@ -67,6 +74,7 @@ public class Cloth implements Parcelable{
     public void writeToParcel(Parcel out, int i) {
         out.writeString(this.id);
         out.writeString(this.type);
-        this.image.writeToParcel(out,i);
+        if(this.image!=null)
+            this.image.writeToParcel(out,i);
     }
 }
