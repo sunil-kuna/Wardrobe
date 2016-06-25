@@ -126,8 +126,7 @@ public class Wardrobe extends AppCompatActivity implements View.OnClickListener,
             else {
                 Toast.makeText(this,"Unable to retrieve Data",Toast.LENGTH_SHORT).show();
             }
-            if(shirtsList.size()>0 && trousersList.size()>0)
-                setFavorite();
+            setFavorite();
         }
     }
 
@@ -220,12 +219,14 @@ public class Wardrobe extends AppCompatActivity implements View.OnClickListener,
 
     void setFavorite()
     {
-        String combo = shirtsList.get(shirtsViewPager.getCurrentItem()).getId()+"_"+
-                trousersList.get(trousersViewPager.getCurrentItem()).getId();
-        if(favouritesSet.contains(combo))
-            favouriteImageView.setImageResource(R.mipmap.favouriteon);
-        else
-            favouriteImageView.setImageResource(R.mipmap.favourite);
+        if(shirtsList.size()>0 && trousersList.size()>0) {
+            String combo = shirtsList.get(shirtsViewPager.getCurrentItem()).getId() + "_" +
+                    trousersList.get(trousersViewPager.getCurrentItem()).getId();
+            if (favouritesSet.contains(combo))
+                favouriteImageView.setImageResource(R.mipmap.favouriteon);
+            else
+                favouriteImageView.setImageResource(R.mipmap.favourite);
+        }
     }
 
     public Favourite getFavouriteItem() {
