@@ -75,7 +75,7 @@ public class ImageSelector extends AppCompatActivity implements View.OnClickList
                 cloth.setType(getIntent().getExtras().getString(Constants.CLOTH_TYPE, Constants.CLOTH_SHIRT));
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(Constants.CLOTH,cloth);
-                getLoaderManager().initLoader(LOADER_ID, bundle, ImageSelector.this).forceLoad();
+                getLoaderManager().restartLoader(LOADER_ID, bundle, ImageSelector.this).forceLoad();
                 break;
             case R.id.cancel:
                 selectImage();

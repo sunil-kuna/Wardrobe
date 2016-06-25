@@ -3,10 +3,8 @@ package com.jojodelivery.wardrobe.Presenters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
-import android.view.ViewGroup;
 
 import com.jojodelivery.wardrobe.DataDefitions.Cloth;
 
@@ -14,7 +12,8 @@ import java.util.ArrayList;
 
 /**
  * Created by asus on 24-06-2016.
- */class WardrobeAdapter extends FragmentStatePagerAdapter {
+ */
+class WardrobeAdapter extends FragmentStatePagerAdapter {
 
     private static final String TAG = WardrobeAdapter.class.getSimpleName() ;
     ArrayList<Cloth> data;

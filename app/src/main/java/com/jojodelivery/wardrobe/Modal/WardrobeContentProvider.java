@@ -15,7 +15,9 @@ import android.util.Log;
 
 import com.jojodelivery.wardrobe.DataDefitions.Cloth;
 import com.jojodelivery.wardrobe.DataDefitions.Constants;
+import com.jojodelivery.wardrobe.DataDefitions.Favourite;
 import com.jojodelivery.wardrobe.Modal.DB.ClothesTable;
+import com.jojodelivery.wardrobe.Modal.DB.FavouritesTable;
 import com.jojodelivery.wardrobe.Modal.DB.WardrobeDBHelper;
 
 import java.io.File;
@@ -181,15 +183,65 @@ public class WardrobeContentProvider extends android.content.ContentProvider {
                 return insertImage(extras);
             case Constants.GET_SHIRTS_TROUSERS:
                 return getShirtsTrousers();
+            case Constants.GET_FAVOURITES:
+                return getFavourites();
+            case Constants.SET_FAVOURITE:
+                return setFavourite(extras);
         }
         return super.call(method, arg, extras);
     }
 
-    private Bundle insertImage(Bundle extras) {
+    private Bundle setFavourite(Bundle extras) {
+        Log.i(TAG,extras.toString());
+        SQLiteDatabase sqDB = database.getWritableDatabase();
+        sqDB.beginTransaction();
+        Favourite favouriteItem = extras.getParcelable(Constants.FAVOURITE_ITEM);
+        if(extras.getBoolean(Constants.IS_FAVOURITE))
+            sqDB.delete(FavouritesTable.Yatis_Table_Favourites,FavouritesTable.Favourites_Column_Type1+"=? AND "+
+            FavouritesTable.Favourites_Column_Type2+"=?",new String[]{favouriteItem.getShirtId(),favouriteItem.getTrousersId()});
+        else
+        {
+            ContentValues values = new ContentValues();
+            values.put(FavouritesTable.Favourites_Column_Type1,favouriteItem.getShirtId());
+            values.put(FavouritesTable.Favourites_Column_Type2,favouriteItem.getTrousersId());
+            sqDB.insert(FavouritesTable.Yatis_Table_Favourites,null,values);
+        }
+        sqDB.setTransactionSuccessful();
+        sqDB.endTransaction();
+        return getFavourites();
+    }
 
+
+    private Bundle getFavourites() {
+        Bundle bundle = new Bundle();
+        SQLiteDatabase sqDB = database.getReadableDatabase();
+        sqDB.beginTransaction();
+        try {
+            Cursor cursor =  sqDB.query(FavouritesTable.Yatis_Table_Favourites,
+                    null, null, null, null, null, null, null);
+            ArrayList<String> result = new ArrayList<>();
+            cursor.moveToFirst();
+            while (cursor.moveToNext())
+            {
+                result.add(cursor.getString(cursor.getColumnIndex(FavouritesTable.Favourites_Column_Type1))+"_"+
+                        cursor.getString(cursor.getColumnIndex(FavouritesTable.Favourites_Column_Type2)));
+            }
+            bundle.putStringArrayList(Constants.FAVOURITES,result);
+            bundle.putString(Constants.RESULT, Constants.RESULT_OK);
+            sqDB.setTransactionSuccessful();
+        }catch (Exception e){
+            bundle.putString(Constants.RESULT,Constants.RESULT_FAIL);
+            e.printStackTrace();
+        }
+        sqDB.endTransaction();
+        return bundle;
+    }
+
+    private Bundle insertImage(Bundle extras) {
+        SQLiteDatabase sqDB = database.getWritableDatabase();
+        sqDB.beginTransaction();
         Bundle bundle = new Bundle();
         try {
-            SQLiteDatabase sqDB = database.getWritableDatabase();
             Cloth cloth = extras.getParcelable(Constants.CLOTH);
             ContentValues values = new ContentValues();
             values.put(ClothesTable.Clothes_Column_Type,cloth.getType());
@@ -202,11 +254,13 @@ public class WardrobeContentProvider extends android.content.ContentProvider {
             out.flush();
             out.close();
             bundle.putString(Constants.RESULT,Constants.RESULT_OK);
+            sqDB.setTransactionSuccessful();
         }
         catch (Exception e) {
             bundle.putString(Constants.RESULT,Constants.RESULT_FAIL);
             e.printStackTrace();
         }
+        sqDB.endTransaction();
         return  bundle;
     }
 
@@ -226,6 +280,7 @@ public class WardrobeContentProvider extends android.content.ContentProvider {
 
     private ArrayList<Cloth> getClothes(String type) {
         SQLiteDatabase sqDB = database.getReadableDatabase();
+        sqDB.beginTransaction();
         Cursor cursor =  sqDB.query(ClothesTable.Yatis_Table_Clothes,
                 null, ClothesTable.Clothes_Column_Type + "=?", new String[]{type}, null, null, null, null);
         ArrayList<Cloth> result = new ArrayList<>();
@@ -237,6 +292,7 @@ public class WardrobeContentProvider extends android.content.ContentProvider {
             cloth.setId(cursor.getString(cursor.getColumnIndex(ClothesTable.Clothes_Column_Id)));
             result.add(cloth);
         }
+        sqDB.endTransaction();
         return result;
     }
 }

@@ -14,16 +14,18 @@ public class Constants {
     public static final String BITMAP = "bitmap";
     public static final String SHIRTS = "shirts";
     public static final String TROUSERS = "trousers";
-    public static final String SHIRTS_VIEWPAGER = "shirtsViewPager";
-    public static final String TROUSERS_VIEWPAGER = "trousersViewPager";
-    public static final String SHIRTS_ADAPTER = "shirtsAdapter";
-    public static final String TROUSERS_ADAPTER = "trousersAdapter";
+    public static final String FAVOURITES = "favourites";
     public static final String SHIRTS_LIST = "shirtsList";
     public static final String TROUSERS_LIST = "trousersList";
+    public static final String FAVOURITES_LIST = "favouritesList";
+    public static final String IS_FAVOURITE= "isFavourite";
+    public static final String FAVOURITE_ITEM= "favouriteItem";
 
     // Call ContentProvider Constants
     public static final String INSERT_IMAGE = "insertImage";
     public static final String GET_SHIRTS_TROUSERS = "getShirtsTrousers";
+    public static final String GET_FAVOURITES = "getFavourites";
+    public static final String SET_FAVOURITE = "setFavourite";
 
     public static final String CLOTH_SHIRT = "CLOTH_SHIRT";
     public static final String CLOTH_TROUSERS = "CLOTH_TROUSERS";
