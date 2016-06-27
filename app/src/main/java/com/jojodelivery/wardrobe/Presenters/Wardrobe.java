@@ -71,6 +71,7 @@ public class Wardrobe extends AppCompatActivity implements View.OnClickListener,
             shirtsList = savedInstanceState.getParcelableArrayList(Constants.SHIRTS_LIST);
             trousersList = savedInstanceState.getParcelableArrayList(Constants.TROUSERS_LIST);
             favouritesSet = new HashSet<>(savedInstanceState.getStringArrayList(Constants.FAVOURITES_LIST));
+            setFavorite();
         }
 
         shirtsAdapter = new WardrobeAdapter(getSupportFragmentManager(),shirtsList);
@@ -147,6 +148,7 @@ public class Wardrobe extends AppCompatActivity implements View.OnClickListener,
                 Collections.shuffle(trousersList, new Random(seed));
                 shirtsAdapter.notifyDataSetChanged();
                 trousersAdapter.notifyDataSetChanged();
+                setFavorite();
                 break;
             case R.id.favourite:
                 Log.i(TAG,"Favourite Clicked");
@@ -223,9 +225,9 @@ public class Wardrobe extends AppCompatActivity implements View.OnClickListener,
             String combo = shirtsList.get(shirtsViewPager.getCurrentItem()).getId() + "_" +
                     trousersList.get(trousersViewPager.getCurrentItem()).getId();
             if (favouritesSet.contains(combo))
-                favouriteImageView.setImageResource(R.mipmap.favouriteon);
+                favouriteImageView.setBackgroundResource(R.drawable.favourite_on);
             else
-                favouriteImageView.setImageResource(R.mipmap.favourite);
+                favouriteImageView.setBackgroundResource(R.mipmap.favourite);
         }
     }
 

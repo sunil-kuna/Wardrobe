@@ -220,7 +220,7 @@ public class WardrobeContentProvider extends android.content.ContentProvider {
             Cursor cursor =  sqDB.query(FavouritesTable.Yatis_Table_Favourites,
                     null, null, null, null, null, null, null);
             ArrayList<String> result = new ArrayList<>();
-            cursor.moveToFirst();
+            cursor.moveToPosition(-1);
             while (cursor.moveToNext())
             {
                 result.add(cursor.getString(cursor.getColumnIndex(FavouritesTable.Favourites_Column_Type1))+"_"+
@@ -284,7 +284,7 @@ public class WardrobeContentProvider extends android.content.ContentProvider {
         Cursor cursor =  sqDB.query(ClothesTable.Yatis_Table_Clothes,
                 null, ClothesTable.Clothes_Column_Type + "=?", new String[]{type}, null, null, null, null);
         ArrayList<Cloth> result = new ArrayList<>();
-        cursor.moveToFirst();
+        cursor.moveToPosition(-1);
         while (cursor.moveToNext())
         {
             Cloth cloth = new Cloth();

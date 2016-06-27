@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="Ok"
             android:layout_weight="1"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/background"
             android:textColor="#fff"
             android:layout_marginRight="5dp"/>
         <Button
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:text="Re-Pick"
             android:layout_weight="1"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/background"
             android:textColor="#fff"
             android:layout_marginLeft="5dp"/>
 

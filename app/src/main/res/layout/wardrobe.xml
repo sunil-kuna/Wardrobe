@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -25,13 +26,14 @@
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@mipmap/shuffle"
+        android:background="@drawable/shuffle"
         android:layout_gravity="center"
-        android:id="@+id/shuffle"/>
+        android:id="@+id/shuffle"
+        android:foreground="@drawable/background"/>
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@mipmap/favourite"
+        android:background="@drawable/favourite"
         android:layout_gravity="center|right"
         android:layout_margin="10dp"
         android:id="@+id/favourite"/>
@@ -39,7 +41,7 @@
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@mipmap/addd"
+        android:background="@drawable/add"
         android:layout_gravity="right|top"
         android:layout_margin="10dp"
         android:id="@+id/add_shirt"/>
@@ -47,7 +49,7 @@
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:src="@mipmap/addd"
+        android:background="@drawable/add"
         android:layout_gravity="right|bottom"
         android:layout_margin="10dp"
         android:id="@+id/add_trousers"/>
